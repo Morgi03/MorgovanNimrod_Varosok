@@ -14,7 +14,8 @@
         android:id="@+id/listBtn"
         android:gravity="center"
         android:layout_centerVertical="true"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:textSize="25sp"/>
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:id="@+id/newitemBtn"
@@ -22,7 +23,8 @@
         android:layout_below="@+id/listBtn"
         android:text="@string/j_felv_tele"
         android:layout_centerVertical="true"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:textSize="25sp"/>
 
 
 </RelativeLayout>
