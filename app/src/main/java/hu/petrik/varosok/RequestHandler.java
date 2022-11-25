@@ -1,8 +1,8 @@
 package hu.petrik.varosok;
 
+import java.net.URL;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
 public final class RequestHandler {
     private RequestHandler() {
@@ -14,31 +14,44 @@ public final class RequestHandler {
         return getResponse(connection);
     }
 
+    public static Response put(String url, String data) throws IOException {
+        HttpURLConnection connection = setupConnection(url);
+        connection.setRequestMethod("PUT");
+        requestBody(connection, data);
+        return getResponse(connection);
+    }
+
     public static Response post(String url, String data) throws IOException {
         HttpURLConnection connection = setupConnection(url);
         connection.setRequestMethod("POST");
-        addRequestBody(connection, data);
+        requestBody(connection, data);
+        return getResponse(connection);
+    }
+
+    public static Response delete(String url) throws IOException {
+        HttpURLConnection connection = setupConnection(url);
+        connection.setRequestMethod("DELETE");
         return getResponse(connection);
     }
 
     private static HttpURLConnection setupConnection(String url) throws IOException {
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
-        connection.setConnectTimeout(10000);
-        connection.setReadTimeout(10000);
+        connection.setConnectTimeout(15000);
+        connection.setReadTimeout(15000);
         connection.setRequestProperty("Accept", "application/json");
         return connection;
     }
 
-    private static void addRequestBody(HttpURLConnection connection, String data) throws IOException {
+    private static void requestBody(HttpURLConnection connection, String data) throws IOException {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
         writer.write(data);
+        writer.close();
         writer.flush();
         os.close();
-        writer.close();
     }
 
     private static Response getResponse(HttpURLConnection connection) throws IOException {

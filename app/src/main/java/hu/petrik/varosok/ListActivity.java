@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +20,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        init();
+            init();
         backBtn.setOnClickListener(view -> {
             Intent intent = new Intent(ListActivity.this, MainActivity.class);
             startActivity(intent);
@@ -27,6 +29,8 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void init() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         backBtn = findViewById(R.id.backBtn);
         datainJson = findViewById(R.id.datainJson);
         Response response = null;
@@ -35,8 +39,7 @@ public class ListActivity extends AppCompatActivity {
             String content = response.getContent();
             datainJson.setText(content);
         } catch (IOException e) {
-            Toast.makeText(this, "Nem sikerült adatot lekérni a szerverről", Toast.LENGTH_SHORT).show();
-            datainJson.setText("ERROR");
+            Toast.makeText(this, "Hiba történt a szerverrel való kommunikáció során", Toast.LENGTH_SHORT).show();
         }
 
     }
