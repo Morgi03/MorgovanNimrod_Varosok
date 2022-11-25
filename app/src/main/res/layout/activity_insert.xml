@@ -7,4 +7,48 @@
     android:layout_height="match_parent"
     tools:context=".InsertActivity">
 
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/nev"
+    android:inputType="text"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/orszag"
+        android:layout_below="@+id/nev"
+        android:inputType="text"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lakossag"
+        android:layout_below="@+id/orszag"
+        android:inputType="number"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lakossag"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hozzáad"
+            android:textAllCaps="false"
+            android:id="@+id/addBtn"
+            android:textSize="25sp"
+            android:layout_weight="1"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vissza"
+            android:textAllCaps="false"
+            android:id="@+id/backBtn2"
+            android:textSize="25sp"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
 </RelativeLayout>
