@@ -16,12 +16,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         listBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, ListActivity.class);
+            Intent intent = new Intent(this, ListActivity.class);
             startActivity(intent);
             finish();
         });
         newitemBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, InsertActivity.class);
+            Intent intent = new Intent(this, InsertActivity.class);
             startActivity(intent);
             finish();
         });
