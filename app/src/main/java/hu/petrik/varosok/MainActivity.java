@@ -1,14 +1,14 @@
 package hu.petrik.varosok;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button listBtn;
     private Button newitemBtn;
+    protected final static String BASE_URL = "https://retoolapi.dev/cnu7aa/varosok";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,12 +16,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         listBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, ListActivity.class);
+            Intent intent = new Intent(MainActivity.this, ListActivity.class);
             startActivity(intent);
             finish();
         });
         newitemBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, InsertActivity.class);
+            Intent intent = new Intent( MainActivity.this, InsertActivity.class);
             startActivity(intent);
             finish();
         });

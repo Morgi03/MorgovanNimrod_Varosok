@@ -19,6 +19,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/backBtn"
         android:id="@+id/datainJson"
-        />
+        android:isScrollContainer="true"/>
 
 </RelativeLayout>
