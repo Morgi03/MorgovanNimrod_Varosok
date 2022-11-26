@@ -1,8 +1,7 @@
 package hu.petrik.varosok;
-
-import java.net.URL;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 public final class RequestHandler {
     private RequestHandler() {
@@ -17,14 +16,7 @@ public final class RequestHandler {
     public static Response put(String url, String data) throws IOException {
         HttpURLConnection connection = setupConnection(url);
         connection.setRequestMethod("PUT");
-        requestBody(connection, data);
-        return getResponse(connection);
-    }
-
-    public static Response post(String url, String data) throws IOException {
-        HttpURLConnection connection = setupConnection(url);
-        connection.setRequestMethod("POST");
-        requestBody(connection, data);
+        addRequestBody(connection, data);
         return getResponse(connection);
     }
 
@@ -34,23 +26,30 @@ public final class RequestHandler {
         return getResponse(connection);
     }
 
+    public static Response post(String url, String data) throws IOException {
+        HttpURLConnection connection = setupConnection(url);
+        connection.setRequestMethod("POST");
+        addRequestBody(connection, data);
+        return getResponse(connection);
+    }
+
     private static HttpURLConnection setupConnection(String url) throws IOException {
         URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
-        connection.setConnectTimeout(15000);
-        connection.setReadTimeout(15000);
+        connection.setConnectTimeout(10000);
+        connection.setReadTimeout(10000);
         connection.setRequestProperty("Accept", "application/json");
         return connection;
     }
 
-    private static void requestBody(HttpURLConnection connection, String data) throws IOException {
+    private static void addRequestBody(HttpURLConnection connection, String data) throws IOException {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
         OutputStream os = connection.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
         writer.write(data);
-        writer.close();
         writer.flush();
+        writer.close();
         os.close();
     }
 
@@ -69,8 +68,8 @@ public final class RequestHandler {
             stringBuilder.append(line).append(System.lineSeparator());
             line = br.readLine();
         }
-        is.close();
         br.close();
+        is.close();
         String content = stringBuilder.toString().trim();
         return new Response(responseCode, content);
     }

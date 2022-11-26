@@ -31,7 +31,7 @@ public class InsertActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        addBtn.setOnClickListener(view->{
+        addBtn.setOnClickListener(view -> {
             felvetel();
         });
     }
@@ -47,33 +47,43 @@ public class InsertActivity extends AppCompatActivity {
     private void felvetel() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Response response = null;
+        String name = nev.getText().toString().trim();
+        String country = orszag.getText().toString().trim();
+        String lakossag1 = lakossag.getText().toString().trim();
+        boolean errorBool = false;
+        if (name.isEmpty()) {
+            Toast.makeText(this, "A név megadása kötelező", Toast.LENGTH_SHORT).show();
+            errorBool = true;
+        }
+        if (country.isEmpty()) {
+            Toast.makeText(this, "Az ország megadása kötelező", Toast.LENGTH_SHORT).show();
+            errorBool = true;
+        }
+        if (lakossag1.isEmpty()) {
+            Toast.makeText(this, "A lakosság számának megadása kötelező", Toast.LENGTH_SHORT).show();
+            errorBool = true;
+        }
+        if (errorBool) {
+            return;
+        }
+        int lakossagint = Integer.parseInt(lakossag1);
+        City city = new City(0, name, country, lakossagint);
+        GsonBuilder gsonbuilder = new GsonBuilder();
+        Gson converter = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String jsonfile = converter.toJson(city);
         try {
-            response = RequestHandler.get(MainActivity.BASE_URL);
-            String content = response.getContent();
-            String name = nev.getText().toString().trim();
-            String country = orszag.getText().toString().trim();
-            String lakossag1 = lakossag.getText().toString().trim();
-            if (name.isEmpty()) {
-                Toast.makeText(this, "A név megadása kötelező", Toast.LENGTH_SHORT).show();
-                return;
+            Response response = RequestHandler.post(MainActivity.BASE_URL, jsonfile);
+            if (response.getResponseCode() == 201) {
+                Toast.makeText(this, "Város hozzáadva", Toast.LENGTH_SHORT).show();
+                nev.setText("");
+                orszag.setText("");
+                lakossag.setText("");
+            } else {
+                String content = response.getContent();
+                Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
             }
-            if (country.isEmpty()) {
-                Toast.makeText(this, "Az ország megadása kötelező", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (lakossag1.isEmpty()) {
-                Toast.makeText(this, "A lakosság számának megadása kötelező", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            int lakossagint = Integer.parseInt(lakossag1);
-            City city = new City(0, name, country, lakossagint);
-            Gson converter = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-            String jsonfile = converter.toJson(city);
-            Response response1 = RequestHandler.post(MainActivity.BASE_URL, jsonfile);
-
         } catch (IOException e) {
-            Toast.makeText(this, "Hiba történt a szerverrel való kommunikáció során", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }

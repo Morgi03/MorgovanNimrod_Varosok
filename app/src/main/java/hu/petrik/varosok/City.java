@@ -1,9 +1,20 @@
 package hu.petrik.varosok;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class City {
+
+    @SerializedName("id")
     private int id;
+    @Expose
+    @SerializedName("nev")
     private String nev;
+    @Expose
+    @SerializedName("orszag")
     private String orszag;
+    @Expose
+    @SerializedName("lakossag")
     private int lakossag;
 
     public City(int id, String nev, String orszag, int lakossag) {
